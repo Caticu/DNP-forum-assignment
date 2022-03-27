@@ -1,6 +1,7 @@
 ﻿@using Domain.Contracts
 @using Domain.Models
 @using System.Security.Claims
+@using BlazorAppForum.Pages.Posts
 
 
 @inject NavigationManager Navigation
@@ -21,16 +22,30 @@
                 Home <span class="oi oi-home nav-image" aria-hidden="true"></span>
             </NavLink>
         </div>
-        
-        <AuthorizeView Policy="Admin">
-            <div class="nav-item px-3">
-                <NavLink class="nav-link" href="AddSubForum">
-                    Add sub-forum <span class="oi oi-plus nav-image" aria-hidden="true"></span>
-                </NavLink>
-            </div>
-        </AuthorizeView>
     </nav>
 </div>
+
+<div>
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="AddPost" Match="NavLinkMatch.All">
+                Add post <span class="oi oi-home nav-image" aria-hidden="true"></span>
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+<div>
+    <nav class="flex-column">
+        <div class="nav-item px-3">
+            <NavLink class="nav-link" href="Posts" Match="NavLinkMatch.All">
+                Posts <span class="oi oi-home nav-image" aria-hidden="true"></span>
+            </NavLink>
+        </div>
+    </nav>
+</div>
+
+
 
 @code {
     private bool collapseNavMenu = true;

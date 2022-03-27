@@ -1,9 +1,9 @@
-﻿@page "/subforum/{Id}/AddPost"
+﻿@page "/AddPost"
 @using Domain.Models
 @using Domain.Contracts
 @using System.Security.Claims
 
-@inject IPostService _postService;
+@inject IPostService _postService
 @inject IUserService _userService
 @inject NavigationManager Navigation
 
@@ -21,14 +21,21 @@
                             <div class="card-body">
                                 <div class="form-group row">
                                         <label for="email_address" class="col-md-4 col-form-label text-md-right">Title</label>
-                                        
+                                        <div class="col-md-6">
+                                            <input type="text" id="title" @bind="_post.Header" class="form-control" name="title" required autofocus>
+                                        </div>
                                     </div>
                                     <div class="form-group row">
                                         <label for="password" class="col-md-4 col-form-label text-md-right">Description</label>
-                                       
+                                        <div class="col-md-6">
+                                            <textarea id="summernote" rows="5" class="form-control" @bind="_post.Body"></textarea>
+                                        </div>
                                     </div>
 
-                                    
+                                    <div class="col-md-6 offset-md-4">
+                                        <button class="btn btn-primary" @onclick="CreatePostAsync">
+                                            Create
+                                        </button>
                                     </div>
                                     <div class="col-md-6 offset-md-4">
 
@@ -41,7 +48,7 @@
                         </div>
                     </div>
                 </div>
-            
+            </div>
         </main>
 
 @code {
@@ -57,8 +64,7 @@
     
     private string errorLabel=String.Empty;
 
-    private Post? _post=new Post();
-   
+    private Post? _post= new Post();
     private User? _user;
     
     protected override async Task OnInitializedAsync()
@@ -72,7 +78,7 @@
 
             if (user.Identity.IsAuthenticated)
             {
-    //get user class base on the user identity
+    //get user clas base on the user identity
                 _user = await _userService.GetUser(user.Identity.Name);
             }
         }
@@ -83,5 +89,26 @@
 
     }
 
-   
+    private async Task CreatePostAsync()
+    {
+        try
+        {
+            if (string.IsNullOrEmpty(_post.Header) || string.IsNullOrEmpty(_post.Body))
+            {
+                throw new Exception("All the fields are mandatory");
+            }
+            else
+            {
+                _post.WrittenBy = _user;
+                _post.date_posted = DateTime.Today;
+                _post = await _postService.AddPost(_post);
+
+
+            }
+        }
+        catch (Exception e)
+        {
+            errorLabel = $"Error: {e.Message} {e.StackTrace}";
+        }
+    }
 }

@@ -29,10 +29,6 @@ builder.Services.AddAuthorization(options =>
     options.AddPolicy("User",
         a => 
             a.RequireAuthenticatedUser().RequireClaim("Role", "User"));
-    
-    options.AddPolicy("SubForumAdmin",
-        a => 
-            a.RequireAuthenticatedUser().RequireClaim("Role", "SubForumAdmin","Admin"));
 });
 
 var app = builder.Build();

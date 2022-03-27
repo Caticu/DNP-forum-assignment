@@ -35,21 +35,15 @@ public class FileContext
         forum = new Forum();
         User[] users =
         {
-            new User
-            {
-                UserName = "admin", Password = "adrian1234", City = "Horsens", BirthDate = new DateTime(1998,12,26),Role = "Admin"
-            },
+            
             new User{
-                UserName = "user", Password = "adrian1234", City = "Horsens2", BirthDate = new DateTime(1998,12,26),Role = "User"
+                UserName = "user", Password = "marian1234", City = "Horning", BirthDate = new DateTime(1997,07,25),Role = "User"
             },
-            new User
-            {
-                UserName = "adminSUB", Password = "adrian1234", City = "Horsens", BirthDate = new DateTime(199,12,26),Role = "SubForumAdmin"
-            }
+           
         };
-            SubForum[] ts =
+            /*Forum[] ts =
         {
-            new SubForum
+            new Forum()
             {
                 Description = "Testing something about subForum", Title = "Gaming"
             },
@@ -57,11 +51,11 @@ public class FileContext
             {
                 Description = "Gaming dot this", Title = "Testing second"
             }
-        };
+        };*/
 
 
             forum.Users = users.ToList();
-            forum.SubForums = ts.ToList();
+            //forum.SubForums = ts.ToList();
         SaveChanges();
     }
 

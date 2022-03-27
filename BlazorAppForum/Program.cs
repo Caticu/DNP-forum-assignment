@@ -16,7 +16,7 @@ builder.Services.AddScoped<FileContext>();
 builder.Services.AddScoped<AuthenticationStateProvider, SimpleAuthenticationStateProvider>();
 builder.Services.AddScoped<IAuthService, AuthServiceImpl>();
 builder.Services.AddScoped<IUserService, FileDataDAO>();
-builder.Services.AddScoped<ISubForumService, FileDataDAO>();
+builder.Services.AddScoped<IPostService, FileDataDAO>();
 
 
 

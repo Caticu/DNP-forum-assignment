@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace FileData.DataAccess;
 
-public class FileDataDAO : ISubForumService, IUserService
+public class FileDataDAO : IPostService, IUserService
 {
     private FileContext _fileContext;
 
@@ -13,39 +13,24 @@ public class FileDataDAO : ISubForumService, IUserService
     }
 
 
-    public async Task<ICollection<SubForum>> GetSubForumAsync()
+    public async Task<ICollection<Post>> GetPostAsync()
     {
-        return _fileContext.Forum.SubForums;
+        return _fileContext.Forum.Posts;
     }
 
-    public async Task<SubForum> GetSubForumByID(string id)
+    public async Task<Post> GetPostByID(string id)
     {
-        return _fileContext.Forum.SubForums.First(t=>t.Id.Equals(id));
+        return _fileContext.Forum.Posts.First(t=>t.Id.Equals(id));
     }
 
-    public async Task<SubForum> AddSubForum(SubForum subforum)
+    public async Task<Post> AddPost(Post post)
     {
-        _fileContext.Forum.SubForums.Add(subforum);
+        _fileContext.Forum.Posts.Add(post);
         _fileContext.SaveChanges();
-        return subforum;
+        return post;
     }
 
-    public async Task DeleteSubForum(string id)
-    {
-        SubForum toDelete = _fileContext.Forum.SubForums.First(t => t.Id.Equals(id));
-        _fileContext.Forum.SubForums.Remove(toDelete);
-        _fileContext.SaveChanges();
-    }
-
-    public async Task UpdateSubForum(SubForum subforum)
-    {
-        SubForum toUpdate = _fileContext.Forum.SubForums.First(t => t.Id.Equals(subforum.Id));
-        toUpdate.Posts = subforum.Posts;
-        toUpdate.Description = subforum.Description;
-        toUpdate.Title = subforum.Title;
-        toUpdate.OwnedBy = subforum.OwnedBy;
-        _fileContext.SaveChanges();
-    }
+    
 
     public async Task<ICollection<User>> GetUsersAsync()
     {
@@ -95,4 +80,4 @@ public class FileDataDAO : ISubForumService, IUserService
         toUpdate.City = user.City;
         _fileContext.SaveChanges();
     }
-}
+} 

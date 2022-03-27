@@ -1,0 +1,68 @@
+@page "/"
+@using System.Security.Claims
+@using Domain.Contracts
+@using Domain.Models
+
+@attribute [Authorize]
+@inject IUserService _userService;
+
+
+<AuthorizeView>
+    <Authorized>
+        <div class="container">
+                    <div class="card">
+                        <div class="info"> <span>@_user.UserName</span> <button @onclick="saveUserProfile">Save</button> </div>
+                        <div class="forms">
+                            <div class="inputs"> <span>City</span> <input type="text" @bind="@_user.City"> </div>
+                            <div class="inputs"> <span>Password</span> <input type="password" @bind="@_user.Password"> </div>
+                            <div class="inputs"> <span>Role</span> <input type="text" @bind="@_user.Role"> </div>
+                            <div class="inputs"> <span>BirthDate</span> <input type="date" @bind="@_user.BirthDate"> </div>
+                            <div class="inputs"> <span>ID</span> @_user.Id </div>
+                        </div>
+                        @if (!string.IsNullOrEmpty(errorLabel))
+                        {
+                            <span class="help-block" style="color: red">@errorLabel</span>
+                        }
+                        </div>
+                </div>
+    </Authorized>
+    <NotAuthorized>
+    </NotAuthorized>
+</AuthorizeView>
+
+
+@code {
+    
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthState { get; set; } = null!;
+
+    private User? _user;
+    //User object
+    private string errorLabel = String.Empty;
+    
+    protected override async Task OnInitializedAsync()
+    {
+        AuthenticationState authState = await AuthState;
+        ClaimsPrincipal user = authState.User;
+
+        if (user.Identity.IsAuthenticated)
+        {
+            //get user clas base on the user identity
+            _user = await _userService.GetUser(user.Identity.Name);
+        }
+    }
+
+    private async Task saveUserProfile()
+    {
+        try
+        {
+            await _userService.UpdateUser(_user);
+        }
+        catch (Exception e)
+        {
+            errorLabel = $"Error: {e.Message}";
+        }
+        
+    }
+    
+}

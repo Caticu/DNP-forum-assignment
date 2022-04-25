@@ -3,7 +3,7 @@ using Domain.Models;
 
 namespace RESTClient;
 
-public class PostHttpService : IPostService
+public class PostHtttpService : IPostService
 {
     public Task<ICollection<Post>> GetPostAsync()
     {

@@ -1,6 +1,4 @@
-﻿
-
-using Domain.Contracts;
+﻿using Domain.Contracts;
 using Domain.Models;
 
 namespace RESTClient;
